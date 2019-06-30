@@ -5,14 +5,14 @@ def Listener():
     # start chrome --remote-debugging-port=9222
     def __init__(self, url="http://127.0.0.1:9222"):
         self.browser = pychrome.Browser(url=url)
-        self.tab = browser.new_tab()
+        self.tab = self.browser.new_tab()
         self.tab.set_listener("Network.requestWillBeSent", self.request_will_be_sent)
         self.tab.set_listener("Network.webSocketFrameReceived", self.web_socket_created)
 
     def start(self):
-        tab.start()
-        tab.call_method("Network.enable")
-        tab.Page.navigate(url="https://www.nitrotype.com/race", _timeout=5)
+        self.tab.start()
+        self.tab.call_method("Network.enable")
+        self.tab.Page.navigate(url="https://www.nitrotype.com/race", _timeout=5)
 
     @staticmethod
     def request_will_be_sent(**kwargs):
