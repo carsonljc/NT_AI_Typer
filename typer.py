@@ -1,46 +1,46 @@
-import pyscreenshot
-import pytesseract
 import time
 import numpy as np
+import decode
+import re
 from pyautogui import press
-from PIL import Image
 
 DEBUG = False
-pytesseract.pytesseract.tesseract_cmd = r"C:\Users\carso\AppData\Local\Tesseract-OCR\tesseract.exe"
 
 class Typer:
-    def __init__(self, box=(548,806,591,906)):
-        self.box = box
-        self.text = None
+    def __init__(self, wpm):
+        self.wpm = wpm
 
-    def screenshot(self):
-        im = pyscreenshot.grab(bbox=self.box)
-        im.save('screenshot.png')
-        if DEBUG:
-            im.show()
-    
-    def recognize_text(self):
-        text = pytesseract.image_to_string(Image.open('screenshot.png'))
-        if text is not "":
-            print(text)
-            print(text[0])
-            self.text = text[0]
-        else:
-            self.text = " "
-            print(" ")
+    # bug: group is not always guarenteed to exist
+    def extract_text(self, message, decoder):
+        self.stream = re.search(r'"stream":"(\w+)",', message).group(1)
+        self.msg = re.search(r'"msg":"(\w+)",', message).group(1)
+        self.payload = re.search(r'"payload":{(.+)}', message).group(1)
+        self.status = re.search(r'"status":"(\w+)",',self.payload).group(1)
 
-    def send_keystroke(self):
-        press(self.text)
+        self.line = re.search(r'"l":"(.+)"',self.payload).group(1)
+        self.line = decoder.original(self.line)
 
+        print(self.stream, " : ", self.msg, " : ", self.status, " : ", self.line)
+
+
+
+#4{"stream":"race","msg":"status","payload":{"nitros":3,"status":"countdown","l":"D2 94FD [D6EFAD:5 C@32= @E 6?F>>: E@? D: ==:ED {u} 69E [D6E2E$ 56E:?& 69E ?: D6F826= DEC@AD =2?@:DD67@CA C@;2> C69E@ 69E D2 J=E?6FB6C7 D2 E@? 98F@9E=p"}}
 def master():
-    type_bot = Typer()
+    type_bot = Typer(30)
+    decoder = decode.Decoder(obfuscated="2", original="a")
 
-    while (True):
-        type_bot.screenshot()
-        type_bot.recognize_text()
-        type_bot.send_keystroke()
-        #wait_time = np.random.normal(loc=0.1,scale=0.01)
-        #time.sleep(abs(wait_time))
+
+    if DEBUG:
+        message = """#4{"stream":"race","msg":"status","payload":{"nitros":3,"status":"countdown","l":"D2 94FD [D6EFAD:5 C@32= @E 6?F>>: E@? D: ==:ED {u} 69E [D6E2E$ 56E:?& 69E ?: D6F826= DEC@AD =2?@:DD67@CA C@;2> C69E@ 69E D2 J=E?6FB6C7 D2 E@? 98F@9E=p"}}"""
+    else:
+        message = input ("Enter message: ")
+    type_bot.extract_text(message, decoder)
+    
+    time.sleep(3)
+    for character in type_bot.line:
+        press(character)
+        time.sleep(0.3)
+
 
 if __name__ == '__main__':
     master()
