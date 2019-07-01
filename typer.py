@@ -1,10 +1,10 @@
 import time
-import numpy as np
-import random
-from decode import Decoder
 import re
-from chrome_extractor import Listener
+import random
+import numpy as np
 from pyautogui import press
+from modules.decode import Decoder
+from modules.chrome_listener import Listener
 
 DEBUG = False
 
@@ -60,10 +60,10 @@ class Typer(Listener, Decoder):
 
 def master():
     # main program to run the algorithms for the typing AI
-    type_bot = Typer(wpm=30)
+    type_bot = Typer(wpm=50)
     type_bot.start() # starts the browsers
     num_races = 0
-    accuracy = 97.5
+    accuracy = 99
 
     def race():
         loc = abs(np.random.normal(loc=type_bot.loc, scale=0.05))
