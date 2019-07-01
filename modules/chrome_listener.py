@@ -27,11 +27,3 @@ class Listener():
 
     def web_socket_created(self, **kwargs):
         print(kwargs.get('response').get('payloadData'))
-
-
-
-# listener = Listener()
-# listener.start()
-
-# while True:
-#     pass
