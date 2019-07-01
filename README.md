@@ -29,7 +29,7 @@ Python plugins needed:
     1. Open cmdline and cd to directory with chrome.exe
     2. Ensure that no other chrome windows are open.
     3. Run
-    > start chrome --remote-debugging-port=9222
+> start chrome --remote-debugging-port=9222
     4. If this chrome instance is ever closed you will have to restart the steps from beginning. 
 
 
