@@ -15,7 +15,7 @@ Python plugins needed:
 
 ### Windows:
 
-###Installing required python modules:
+#### Installing required python modules:
     1. Open cmd line
     2. Run:
     > pip install <module_name>
@@ -25,7 +25,7 @@ Python plugins needed:
 
 
 
-###Chrome will also have to be configured:
+#### Chrome will also have to be configured:
     1. Open cmdline and cd to directory with chrome.exe
     2. Ensure that no other chrome windows are open.
     3. Run
@@ -35,7 +35,7 @@ Python plugins needed:
 
 
 
-###Instructions to run:
+#### Instructions to run:
     1. Execute program typer.py
     2. As soon as page is loaded, click the window so it becomes your active window
     3. You are all done, moving mouse may cause a failsafe to activate - and stopping the system.s
