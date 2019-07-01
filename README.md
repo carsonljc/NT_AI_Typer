@@ -18,10 +18,10 @@ Python plugins needed:
 #### Installing required python modules:
     1. Open cmd line
     2. Run:
-    > pip install <module_name>
+        >  pip install <module_name>
     3. If pip does not work that means it may not be part of path variable.
     4. Run in cmd line:
-    > setx PATH "%PATH%;<path to pip.exe>
+        > setx PATH "%PATH%;<path to pip.exe>
 
 
 
@@ -29,7 +29,7 @@ Python plugins needed:
     1. Open cmdline and cd to directory with chrome.exe
     2. Ensure that no other chrome windows are open.
     3. Run
-> start chrome --remote-debugging-port=9222
+        > start chrome --remote-debugging-port=9222
     4. If this chrome instance is ever closed you will have to restart the steps from beginning. 
 
 
