@@ -31,31 +31,32 @@ class Typer(Listener, Decoder):
             if re.search(r'"stream":"(\w+)",', message) is not None:
                 self.stream = re.search(r'"stream":"(\w+)",', message).group(1)
                 self.msg = re.search(r'"msg":"(\w+)",', message).group(1)
-                self.payload = re.search(r'"payload":{(.+)}', message).group(1)
+                if re.search(r'"payload":{(.+)}', message) is not None:
+                    self.payload = re.search(r'"payload":{(.+)}', message).group(1)
 
-                # status may not always exist in payload
-                try:
-                    self.status = re.search(r'"status":"(\w+)",', self.payload).group(1)
-                except:
-                    self.status = None
+                    # status may not always exist in payload
+                    try:
+                        self.status = re.search(r'"status":"(\w+)",', self.payload).group(1)
+                    except:
+                        self.status = None
 
-                # condition for getting typing text
-                if re.search(r'"l":"(.+)"', self.payload) is not None:
-                    self.line = re.search(r'"l":"(.+)"', self.payload).group(1)
-                    self.text = self.original(self.line)
-                    self.state = "ready"
-                # condition for detetion the start of the race
-                elif re.search(r'"startStamp":(.+),', self.payload) is not None:
-                    self.line = re.search(r'"startStamp":(.+),', self.payload).group(1)
-                    self.state = "start"
-                # condition for detecting end of a race
-                elif re.search(r'"r":{(.+)}', self.payload) is not None:
-                    self.line = re.search(r'"r":{(.+)}', self.payload).group(1)
-                    self.state = "end"
-                else:
-                    self.line = None
+                    # condition for getting typing text
+                    if re.search(r'"l":"(.+)"', self.payload) is not None:
+                        self.line = re.search(r'"l":"(.+)"', self.payload).group(1)
+                        self.text = self.original(self.line)
+                        self.state = "ready"
+                    # condition for detetion the start of the race
+                    elif re.search(r'"startStamp":(.+),', self.payload) is not None:
+                        self.line = re.search(r'"startStamp":(.+),', self.payload).group(1)
+                        self.state = "start"
+                    # condition for detecting end of a race
+                    elif re.search(r'"r":{(.+)}', self.payload) is not None:
+                        self.line = re.search(r'"r":{(.+)}', self.payload).group(1)
+                        self.state = "end"
+                    else:
+                        self.line = None
 
-                if DEBUG: print(self.stream, " : ", self.msg, " : ", self.status, " : ", self.line)
+                    if DEBUG: print(self.stream, " : ", self.msg, " : ", self.status, " : ", self.line)
 
 
 def master():
