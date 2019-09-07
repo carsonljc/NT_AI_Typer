@@ -61,13 +61,13 @@ class Typer(Listener, Decoder):
 
 def master():
     # main program to run the algorithms for the typing AI
-    type_bot = Typer(wpm=50)
+    type_bot = Typer(wpm=60)
     type_bot.start() # starts the browsers
     num_races = 0
-    accuracy = 99
+    accuracy = 98
 
     def race():
-        loc = abs(np.random.normal(loc=type_bot.loc, scale=0.05))
+        loc = abs(np.random.normal(loc=type_bot.loc, scale=0.01))
 
         for character in type_bot.text:
             amount_to_wait = abs(np.random.normal(loc=loc,scale=0.01))
